@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Cursor Trail</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #1a1a1a;
+        }
+
+        .trail {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 20, 147, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px 5px rgba(255, 20, 147, 0.8);
+            pointer-events: none;
+            animation: fadeOut 1s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // İz sayısını belirle
+        const TRAIL_LIMIT = 50;
+        const trails = [];
+
+        document.addEventListener("mousemove", (event) => {
+            // Yeni bir iz oluştur
+            const trail = document.createElement("div");
+            trail.classList.add("trail");
+            trail.style.left = `${event.pageX}px`;
+            trail.style.top = `${event.pageY}px`;
+
+            // İzleri ekrana yerleştir
+            document.body.appendChild(trail);
+            trails.push(trail);
+
+            // İz sayısını kontrol et ve eski izleri kaldır
+            if (trails.length > TRAIL_LIMIT) {
+                const oldTrail = trails.shift();
+                oldTrail.remove();
+            }
+        });
+    </script>
+</body>
+</html>
